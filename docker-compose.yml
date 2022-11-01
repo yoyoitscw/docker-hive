@@ -32,6 +32,7 @@ services:
       - app-tier
 
   hive-server:
+    hostname: hive-server
     image: bde2020/hive:2.3.2-postgresql-metastore
     env_file:
       - ./hive/hadoop-hive.env
@@ -44,6 +45,7 @@ services:
       - app-tier
 
   hive-metastore:
+    hostname: hive-metastore
     image: bde2020/hive:2.3.2-postgresql-metastore
     env_file:
       - ./hive/hadoop-hive.env
@@ -66,12 +68,13 @@ services:
     container_name: minio
     ports:
       - "9000:9000"
+      - "9001:9001"
     volumes:
       - ./minio/data:/data
     environment:
       MINIO_ACCESS_KEY: minio_access_key
       MINIO_SECRET_KEY: minio_secret_key
-    command: server /data
+    command: server /data --console-address :9001
     networks:
       - app-tier
 
