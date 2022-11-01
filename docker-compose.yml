@@ -46,16 +46,34 @@ services:
 
   hive-metastore:
     hostname: hive-metastore
-    image: bde2020/hive:2.3.2-postgresql-metastore
+    build: ./hive/.
+    image: hive-postgresql-metastore-custom
     env_file:
       - ./hive/hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+    # volumes:
+    #   - ./hive/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
     ports:
       - "9083:9083"
     networks:
       - app-tier
+
+  # hive-metastore:
+  #   hostname: hive-metastore
+  #   image: bde2020/hive:2.3.2-postgresql-metastore
+  #   env_file:
+  #     - ./hive/hadoop-hive.env
+  #   command: /opt/hive/bin/hive --service metastore
+  #   environment:
+  #     SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+  #   # volumes:
+  #   #   - ./hive/conf/hive-site.xml:/opt/hive/conf/hive-site.xml
+  #   ports:
+  #     - "9083:9083"
+  #   networks:
+  #     - app-tier
 
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:2.3.0
