@@ -1,7 +1,5 @@
 FROM bde2020/hadoop-base:2.0.0-hadoop2.7.4-java8
 
-MAINTAINER Yiannis Mouchakis <gmouchakis@iit.demokritos.gr>
-MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 
 # Allow buildtime config of HIVE_VERSION
 ARG HIVE_VERSION
@@ -32,18 +30,18 @@ RUN apt-get update && apt-get install -y wget procps && \
 #hive-site.xml should be copied to $SPARK_HOME/conf folder
 
 #Custom configuration goes here
-ADD conf/hive-site.xml $HIVE_HOME/conf
-ADD conf/beeline-log4j2.properties $HIVE_HOME/conf
-ADD conf/hive-env.sh $HIVE_HOME/conf
-ADD conf/hive-exec-log4j2.properties $HIVE_HOME/conf
-ADD conf/hive-log4j2.properties $HIVE_HOME/conf
-ADD conf/ivysettings.xml $HIVE_HOME/conf
-ADD conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
+ADD hive/conf/hive-site.xml $HIVE_HOME/conf
+ADD hive/conf/beeline-log4j2.properties $HIVE_HOME/conf
+ADD hive/conf/hive-env.sh $HIVE_HOME/conf
+ADD hive/conf/hive-exec-log4j2.properties $HIVE_HOME/conf
+ADD hive/conf/hive-log4j2.properties $HIVE_HOME/conf
+ADD hive/conf/ivysettings.xml $HIVE_HOME/conf
+ADD hive/conf/llap-daemon-log4j2.properties $HIVE_HOME/conf
 
-COPY startup.sh /usr/local/bin/
+COPY hive/script/startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh
 
-COPY entrypoint.sh /usr/local/bin/
+COPY hive/script/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 10000
